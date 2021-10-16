@@ -1,9 +1,11 @@
+/* eslint-disable array-callback-return */
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux';
 import {changeEditServiceField, changeServiceField, removeService} from '../actions/actionCreators';
 
 function ServiceList() {
   const items = useSelector(state => state.serviceList);
+  const filter = useSelector(state => state.serviceFilter);
   const dispatch = useDispatch();
 
   const handleRemove = id => {
@@ -18,9 +20,11 @@ function ServiceList() {
     dispatch(changeEditServiceField(service.id));
   }
 
+  const newList = items.filter((el) => el.name.includes(filter));
+
   return (
     <ul>
-      {items.map(o => (
+      {newList.map(o => (
         <li key={o.id}>
           {o.name} {o.price}
           <button onClick={() => handleEdit(o.id)}>&#9998;</button>
